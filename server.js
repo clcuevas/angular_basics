@@ -9,6 +9,9 @@ var petRoutes = express.Router();
 //create mongoDB for pet schema
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/pet_development');
 
+//all files in /build will be static
+app.use(express.static(__dirname + '/build'));
+
 require('./routes/pet_routes.js')(petRoutes);
 
 app.use('/api', petRoutes);
