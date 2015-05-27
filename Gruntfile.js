@@ -13,6 +13,13 @@ module.exports = function(grunt) {
           path: 'build/',
           file: 'bundle.js'
         }
+      },
+      test: {
+        entry: __dirname + '/test/client/test.js',
+        output: {
+          path: 'test/client/',
+          file: 'test_bundle.js'
+        }
       }
     },
 
@@ -34,5 +41,6 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['webpack:client', 'copy:html'])
+  grunt.registerTask('build', ['webpack:client', 'webpack:test', 'copy:html']);
+  grunt.registerTask('default', ['build']);
 };
