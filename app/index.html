@@ -5,10 +5,22 @@
     <title>Client Side</title>
   </head>
   <body data-ng-app="petsApp">
-    <main data-ng-controller="petsCtrl">
-      <h1>{{greeting}}</h1>
-      <input type="text" data-ng-model="greeting">
-      <button data-ng-click="displayGreeting()">Alert!</button>
+    <main data-ng-controller="petsCtrl" data-ng-init="getAll()">
+      <h1>Pet Lovers!</h1>
+      <p>This site lists all the pets that our users have submitted that they own. Enjoy the list and feel free to add your pets to the list!</p>
+      <h2>Add A New Pet:</h2>
+      <form name="newPetForm" data-ng-submit="createNewPet()">
+        <input type="text" placeholder="pet name" data-ng-model="newPet.name">
+        <input type="text" placeholder="pet owner" data-ng-model="newPet.owner">
+        <input type="text" placeholder="pet weight" data-ng-model="newPet.weight">
+        <input type="text" placeholder="pet type" data-ng-model="newPet.type">
+        <button type="submit">Add New Pet!</button>
+      </form>
+      <h2>View Existing Pets:</h2>
+      <!-- pets is the object/ data we are getting back from the $http.get request (data is essentially $scope.pets)-->
+      <ul data-ng-repeat="pet in pets">
+        <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}</li>
+      </ul>
     </main>
     <script src="bundle.js"></script>
   </body>
