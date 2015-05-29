@@ -16,10 +16,18 @@ module.exports = function(app) {
           $scope.errors.push({msg: 'error retrieving pets'});
         });
     };
-    //$scope.getAll();
 
     $scope.createNewPet = function() {
-      alert('clicked');
+      $http.post('/api/pets', $scope.newPet)
+        .success(function(data) {
+          $scope.pets.push(data);
+          //clear out the newPet after it is pushed
+          $scope.newPet = null;
+        })
+        .error(function(data) {
+          console.log(data);
+          $scope.data.push({msg: 'could not create new note'});
+        });
     };
   }]);
 };
