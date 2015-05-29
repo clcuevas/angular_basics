@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Client Side</title>
   </head>
-  <body>
-    <h1>Listed Pets!</h1>
-    <p>This pet app displays a list of pets and their owners.</p>
-    <ul id="petlist"></ul>
+  <body data-ng-app="petsApp">
+    <main data-ng-controller="petsCtrl">
+      <h1>{{greeting}}</h1>
+      <input type="text" data-ng-model="greeting">
+      <button data-ng-click="displayGreeting()">Alert!</button>
+    </main>
     <script src="bundle.js"></script>
   </body>
 </html>
