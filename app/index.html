@@ -26,14 +26,14 @@
       <h2>View Existing Pets:</h2>
       <!-- pets is the object/ data we are getting back from the $http.get request (data is essentially $scope.pets)-->
       <ul data-ng-repeat="pet in pets">
-        <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button data-ng-click="removePet(pet)">Delete</button><button data-ng-if="!pet.editing" data-ng-click="pet.editing = true">Edit</button>
-          <form name="{{'editing' + pet._id}}" data-ng-if="pet.editing" data-ng-submit="savePet(pet)">
+        <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button data-ng-click="removePet(pet)">Delete</button><button data-ng-if="!pet.editing" data-ng-click="editPet(pet)">Edit</button>
+          <form name="{{'editing'+pet._id}}" data-ng-if="pet.editing" data-ng-submit="savePet(pet)">
             <input type="text" placeholder="pet name" data-ng-model="pet.name">
             <input type="text" placeholder="pet owner" data-ng-model="pet.owner">
             <input type="number" placeholder="pet weight" data-ng-model="pet.weight">
             <input type="text" placeholder="pet type" data-ng-model="pet.type">
             <button type="submit">Save</button>
-            <button data-ng-click="cancelEditing()">Cancel</button>
+            <button data-ng-click="cancelEditing(pet)">Cancel</button>
           </form>
         </li>
       </ul>
