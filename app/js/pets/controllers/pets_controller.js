@@ -68,7 +68,7 @@ module.exports = function(app) {
     $scope.cancelEditing = function(pet) {
       pet.editing = false;
       
-      if (pet != $scope.tempPet) {
+      if (pet !== $scope.tempPet) {
         if (pet.name !== $scope.tempPet.name) {
           pet.name = $scope.tempPet.name;
         }
