@@ -11,6 +11,7 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/pet_developmen
 
 //all files in /build will be static
 app.use(express.static(__dirname + '/build'));
+app.use(express.static(__dirname + '/app'));
 
 require('./routes/pet_routes.js')(petRoutes);
 

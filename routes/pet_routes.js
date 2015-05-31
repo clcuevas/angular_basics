@@ -56,6 +56,20 @@ module.exports = function(router) {
     });//end save
   });//end post method
 
+  router.put('/pets/:id', function(req, res) {
+    var updatedPet = req.body;
+    delete updatedPet._id;
+
+    Pet.update({'_id': req.params.id}, updatedPet, function(err, data) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({msg: 'internal server error'});
+      }
+
+      res.json({msg: 'success'}); 
+    });
+  });//end PUT method
+
   router.delete('/pets/:id', function(req, res) {
     Pet.remove({'_id': req.params.id}, function(err, data) {
       if(err) {

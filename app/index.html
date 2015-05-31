@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Client Side</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
   </head>
-  <body>
-    <h1>Listed Pets!</h1>
-    <p>This pet app displays a list of pets and their owners.</p>
-    <ul id="petlist"></ul>
+  <body data-ng-app="petsApp">
+    <main data-ng-controller="petsCtrl" data-ng-init="getAll()">
+      <h1>Pet Lovers!</h1>
+      <p>This site lists all the pets that our users have submitted that they own. Enjoy the list and feel free to add your pets to the list!</p>
+      <aside data-ng-if="errors.length">
+        <h2>Errors:</h2>
+        <ul data-ng-repeat="error in errors">
+          <li>{{error.msg}}</li>
+        </ul>
+        <button class="btn" data-ng-click="clearErrors()">Clear Errors</button>
+      </aside>
+      <h2>Add A New Pet:</h2>
+      <form class="newPet" name="newPetForm" data-ng-submit="createNewPet()">
+        <input type="text" required placeholder="pet name" data-ng-model="newPet.name">
+        <input type="text" required placeholder="pet owner" data-ng-model="newPet.owner">
+        <input type="number" required placeholder="pet weight" data-ng-model="newPet.weight">
+        <input type="text" required placeholder="pet type" data-ng-model="newPet.type">
+        <button class="btn submit" type="submit" data-ng-disabled="newPetForm.$invalid">Add New Pet!</button>
+      </form>
+      <h2>View Existing Pets:</h2>
+      <!-- pets is the object/ data we are getting back from the $http.get request (data is essentially $scope.pets)-->
+      <ul class="existingPets" data-ng-repeat="pet in pets">
+        <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button class="btn delete" data-ng-click="removePet(pet)">Delete</button><button class="btn" data-ng-if="!pet.editing" data-ng-click="editPet(pet)">Edit</button>
+          <form name="{{'editing'+pet._id}}" data-ng-if="pet.editing" data-ng-submit="savePet(pet)">
+            <input type="text" placeholder="pet name" data-ng-model="pet.name">
+            <input type="text" placeholder="pet owner" data-ng-model="pet.owner">
+            <input type="number" placeholder="pet weight" data-ng-model="pet.weight">
+            <input type="text" placeholder="pet type" data-ng-model="pet.type">
+            <button class="btn submit" type="submit">Save</button>
+            <button class="btn" data-ng-click="cancelEditing(pet)">Cancel</button>
+          </form>
+        </li>
+      </ul>
+    </main>
     <script src="bundle.js"></script>
   </body>
 </html>

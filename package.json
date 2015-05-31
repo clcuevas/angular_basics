@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/omordn/angular_basics",
   "devDependencies": {
+    "angular": "^1.4.0",
     "chai": "^2.3.0",
     "chai-http": "^1.0.0",
     "grunt": "^0.4.5",
