@@ -1,3 +1,4 @@
+// jscs:disable
 // Karma configuration
 // Generated on Tue Jun 02 2015 08:53:34 GMT-0700 (PDT)
 

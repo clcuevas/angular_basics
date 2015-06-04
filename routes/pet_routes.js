@@ -11,7 +11,7 @@ module.exports = function(router) {
 
   router.get('/pets', function(req, res) {
     Pet.find({}, function(err, data) {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
       }
@@ -26,7 +26,7 @@ module.exports = function(router) {
   //custom query/ method for dogs
   router.get('/pets/search/dogs', function(req, res) {
     queryDog.findSimilarTypes(function(err, data) {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
       }
@@ -37,7 +37,7 @@ module.exports = function(router) {
   //custom query/ method for ferrets
   router.get('/pets/search/ferrets', function(req, res) {
     queryFerrets.findSimilarTypes(function(err, data) {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
       }
@@ -48,7 +48,7 @@ module.exports = function(router) {
   router.post('/pets', function(req, res) {
     var newPet = new Pet(req.body);
     newPet.save(function(err, data) {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
       }
@@ -66,13 +66,13 @@ module.exports = function(router) {
         return res.status(500).json({msg: 'internal server error'});
       }
 
-      res.json({msg: 'success'}); 
+      res.json({msg: 'success'});
     });
   });//end PUT method
 
   router.delete('/pets/:id', function(req, res) {
     Pet.remove({'_id': req.params.id}, function(err, data) {
-      if(err) {
+      if (err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
       }
