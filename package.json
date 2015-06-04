@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/omordn/angular_basics.git"
+    "url": "https://github.com/clcuevas/angular_basics.git"
   },
   "author": "omordn@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/omordn/angular_basics/issues"
+    "url": "https://github.com/clcuevas/angular_basics/issues"
   },
-  "homepage": "https://github.com/omordn/angular_basics",
+  "homepage": "https://github.com/clcuevas/angular_basics",
   "devDependencies": {
     "angular": "^1.4.0",
     "angular-mocks": "^1.4.0",
