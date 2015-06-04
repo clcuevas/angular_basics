@@ -9,8 +9,8 @@ module.exports = function(app) {
     $scope.getAll = function() {
       $http.get('/api/pets')
         .success(function(data) {
-          /*you assign a key of pets to the array of objects you're 
-          receiving back from the GET request(data)*/
+          /*you assign a key of pets to the array of
+          objects you're receiving back from the GET request(data)*/
           $scope.pets = data;
         })
         .error(function(data) {
@@ -35,7 +35,7 @@ module.exports = function(app) {
 
     $scope.removePet = function(pet) {
       /*You are removing the pet element you
-      are selecting to delete (splice) and 
+      are selecting to delete (splice) and
       locating the index of that element
       in your array of objects (indexOf)*/
       $scope.pets.splice($scope.pets.indexOf(pet), 1);
@@ -50,7 +50,6 @@ module.exports = function(app) {
     $scope.savePet = function(pet) {
       //reset editing status
       pet.editing = false;
-      
       $http.put('/api/pets/' + pet._id, pet)
         .error(function(data) {
           console.log(data);
@@ -60,14 +59,12 @@ module.exports = function(app) {
 
     $scope.editPet = function(pet) {
       pet.editing = true;
-      
       //save a copy of original object
       $scope.tempPet = angular.copy(pet);
     };
 
     $scope.cancelEditing = function(pet) {
       pet.editing = false;
-      
       if (pet !== $scope.tempPet) {
         if (pet.name !== $scope.tempPet.name) {
           pet.name = $scope.tempPet.name;

@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 
     jscs: {
       dev: {
-        src: ['<%= jshint.dev.src %>']
+        src: ['<%= jshint.dev.src %>', '<%= jshint.client.src %>', '<%= jshint.karma.src %>']
       }
     },
 
