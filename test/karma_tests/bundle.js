@@ -69,7 +69,7 @@
 
 	//this runs all the code we copied into our bundle
 	__webpack_require__(3);
-	__webpack_require__(6);
+	__webpack_require__(7);
 
 	describe('pets controller', function() {
 	  //this is the ControllerConstructor
@@ -202,7 +202,13 @@
 
 	var petsApp = angular.module('petsApp', []);
 
+	//services
 	__webpack_require__(5)(petsApp);
+
+	//controllers
+	__webpack_require__(6)(petsApp);
+
+	//directives
 
 
 /***/ },
@@ -28350,22 +28356,85 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('petsCtrl', ['$scope', '$http', function($scope, $http) {
+		var handleError = function(callback) {
+			return function(data) {
+				console.log(data);
+				callback(data);
+			}
+		};
+
+		var handleSuccess = function(callback) {
+			return function(data) {
+				callback(null, data);
+			}
+		};
+
+		app.factory('RESTResource', ['$http', function($http) {
+			return function(resourceName) {
+				return {
+					getAll: function(callback) {
+						$http.get('/api/' + resourceName)
+							//the callback is essentially function(data)
+							//callback is coming from the controller
+							.success(handleSuccess(callback))
+							//the callback is essentially function(data)
+							//callback is coming from the controller
+							.error(handleError(callback));
+					},
+
+					create: function(resourceData, callback) {
+						$http.post('/api/' + resourceName)
+							.success(handleSuccess(callback))
+							.error(handleError(callback));
+					},
+
+					save: function(resourceData, callback) {
+						$http.put('/api/' + resourceName + '/' + resourceData._id, resourceData)
+							.success(handleSuccess(callback))
+							.error(handleError(callback));
+					},
+
+					remove: function(resourceData, callback) {
+						$http.delete('/api/' + resourceName + '/' + resourceData._id)
+							.success(handleSuccess(callback))
+							.error(handleError(callback));
+					}
+				}
+			};
+		}]);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('petsCtrl', ['$scope', '$http', 'RESTResource', function($scope, $http, resource) {
+	    var Pet = resource('pets');
 	    //hold errors
 	    $scope.errors = [];
 	    $scope.pets = [];
 
 	    $scope.getAll = function() {
-	      $http.get('/api/pets')
-	        .success(function(data) {
-	          /*you assign a key of pets to the array of objects you're 
-	          receiving back from the GET request(data)*/
-	          $scope.pets = data;
-	        })
-	        .error(function(data) {
-	          console.log(data);
-	          $scope.errors.push({msg: 'error retrieving pets'});
-	        });
+	      // $http.get('/api/pets')
+	      //   .success(function(data) {
+	          /*you assign a key of pets to the array of
+	          objects you're receiving back from the GET request(data)*/
+	        //   $scope.pets = data;
+	        // })
+	        // .error(function(data) {
+	        //   console.log(data);
+	        //   $scope.errors.push({msg: 'error retrieving pets'});
+	        // });
+	      Pet.getAll(function(err, data) {
+	        if (err) {
+	          return $scope.errors.push({msg: 'error retrieving pets'});
+	        }
+	        $scope.pets = data;
+	      });
 	    };
 
 	    $scope.createNewPet = function() {
@@ -28384,7 +28453,7 @@
 
 	    $scope.removePet = function(pet) {
 	      /*You are removing the pet element you
-	      are selecting to delete (splice) and 
+	      are selecting to delete (splice) and
 	      locating the index of that element
 	      in your array of objects (indexOf)*/
 	      $scope.pets.splice($scope.pets.indexOf(pet), 1);
@@ -28399,7 +28468,6 @@
 	    $scope.savePet = function(pet) {
 	      //reset editing status
 	      pet.editing = false;
-	      
 	      $http.put('/api/pets/' + pet._id, pet)
 	        .error(function(data) {
 	          console.log(data);
@@ -28409,14 +28477,13 @@
 
 	    $scope.editPet = function(pet) {
 	      pet.editing = true;
-	      
 	      //save a copy of original object
 	      $scope.tempPet = angular.copy(pet);
 	    };
 
 	    $scope.cancelEditing = function(pet) {
 	      pet.editing = false;
-	      
+
 	      if (pet !== $scope.tempPet) {
 	        if (pet.name !== $scope.tempPet.name) {
 	          pet.name = $scope.tempPet.name;
@@ -28445,7 +28512,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**

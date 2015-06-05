@@ -1,36 +1,23 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('petsCtrl', ['$scope', '$http', function($scope, $http) {
+  app.controller('petsCtrl', ['$scope', '$http', 'RESTResource', function($scope, $http, resource) {
+    var Pet = resource('pets');
     //hold errors
     $scope.errors = [];
     $scope.pets = [];
 
     $scope.getAll = function() {
-      $http.get('/api/pets')
-        .success(function(data) {
-          /*you assign a key of pets to the array of
-          objects you're receiving back from the GET request(data)*/
-          $scope.pets = data;
-        })
-        .error(function(data) {
-          console.log(data);
-          $scope.errors.push({msg: 'error retrieving pets'});
-        });
+      Pet.getAll(function(err, data) {
+        if (err) {
+          return $scope.errors.push({msg: 'error retrieving pets'});
+        }
+        $scope.pets = data;
+      });
     };
 
     $scope.createNewPet = function() {
-
-      $http.post('/api/pets', $scope.newPet)
-        .success(function(data) {
-          $scope.pets.push(data);
-          //clear out the newPet after it is pushed
-          $scope.newPet = null;
-        })
-        .error(function(data) {
-          console.log(data);
-          $scope.data.push({msg: 'could not create new note'});
-        });
+      
     };
 
     $scope.removePet = function(pet) {
@@ -65,6 +52,7 @@ module.exports = function(app) {
 
     $scope.cancelEditing = function(pet) {
       pet.editing = false;
+
       if (pet !== $scope.tempPet) {
         if (pet.name !== $scope.tempPet.name) {
           pet.name = $scope.tempPet.name;

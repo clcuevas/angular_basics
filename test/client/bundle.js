@@ -55,6 +55,7 @@
 	  });
 	});
 
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -7104,6 +7105,7 @@
 	module.exports = function() {
 	  return 'hello world, from greet javascript file';
 	};
+
 
 /***/ }
 /******/ ]);
