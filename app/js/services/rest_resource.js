@@ -28,7 +28,7 @@ module.exports = function(app) {
 				},
 
 				create: function(resourceData, callback) {
-					$http.post('/api/' + resourceName)
+					$http.post('/api/' + resourceName, resourceData)
 						.success(handleSuccess(callback))
 						.error(handleError(callback));
 				},

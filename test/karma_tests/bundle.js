@@ -46,6 +46,8 @@
 
 	__webpack_require__(1);
 	__webpack_require__(2);
+	__webpack_require__(9);
+
 
 
 /***/ },
@@ -69,7 +71,7 @@
 
 	//this runs all the code we copied into our bundle
 	__webpack_require__(3);
-	__webpack_require__(7);
+	__webpack_require__(8);
 
 	describe('pets controller', function() {
 	  //this is the ControllerConstructor
@@ -204,9 +206,10 @@
 
 	//services
 	__webpack_require__(5)(petsApp);
+	__webpack_require__(6)(petsApp);
 
 	//controllers
-	__webpack_require__(6)(petsApp);
+	__webpack_require__(7)(petsApp);
 
 	//directives
 
@@ -28356,6 +28359,25 @@
 	'use strict';
 
 	module.exports = function(app) {
+		app.factory('copy', function() {
+			return function(objToCopy) {
+				var obj = {};
+				Object.keys(objToCopy).forEach(function(key) {
+					obj[key] = objToCopy[key];				
+				});
+				return obj;
+			};
+		});
+	}
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function(app) {
 		var handleError = function(callback) {
 			return function(data) {
 				console.log(data);
@@ -28383,7 +28405,7 @@
 					},
 
 					create: function(resourceData, callback) {
-						$http.post('/api/' + resourceName)
+						$http.post('/api/' + resourceName, resourceData)
 							.success(handleSuccess(callback))
 							.error(handleError(callback));
 					},
@@ -28406,7 +28428,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28419,16 +28441,6 @@
 	    $scope.pets = [];
 
 	    $scope.getAll = function() {
-	      // $http.get('/api/pets')
-	      //   .success(function(data) {
-	          /*you assign a key of pets to the array of
-	          objects you're receiving back from the GET request(data)*/
-	        //   $scope.pets = data;
-	        // })
-	        // .error(function(data) {
-	        //   console.log(data);
-	        //   $scope.errors.push({msg: 'error retrieving pets'});
-	        // });
 	      Pet.getAll(function(err, data) {
 	        if (err) {
 	          return $scope.errors.push({msg: 'error retrieving pets'});
@@ -28438,17 +28450,15 @@
 	    };
 
 	    $scope.createNewPet = function() {
-
-	      $http.post('/api/pets', $scope.newPet)
-	        .success(function(data) {
-	          $scope.pets.push(data);
-	          //clear out the newPet after it is pushed
-	          $scope.newPet = null;
-	        })
-	        .error(function(data) {
-	          console.log(data);
-	          $scope.data.push({msg: 'could not create new note'});
-	        });
+	      var newPet = $scope.newPet;
+	      $scope.newPet = null;
+	      $scope.pets.push(newPet);
+	      Pet.create(newPet, function(err, data) {
+	        if (err) {
+	          return $scope.errors.push({msg: 'could not save pet: ' + newPet.name});
+	        }
+	        $scope.pets.splice($scope.pets.indexOf(newPet), 1, data);
+	      });
 	    };
 
 	    $scope.removePet = function(pet) {
@@ -28458,21 +28468,26 @@
 	      in your array of objects (indexOf)*/
 	      $scope.pets.splice($scope.pets.indexOf(pet), 1);
 	      //this deletes the object from the DB
-	      $http.delete('/api/pets/' + pet._id)
-	        .error(function(data) {
-	          console.log(data);
+	      Pet.remove(pet, function(err) {
+	        if (err) {
 	          $scope.errors.push({msg: 'could not remove pet: ' + pet});
-	        });
+	        }
+	      });
 	    };
 
 	    $scope.savePet = function(pet) {
 	      //reset editing status
 	      pet.editing = false;
-	      $http.put('/api/pets/' + pet._id, pet)
-	        .error(function(data) {
-	          console.log(data);
+	      Pet.save(pet, function(err) {
+	        if (err) {
 	          $scope.errors.push({msg: 'could not save changes'});
-	        });
+	        }
+	      });
+	      // $http.put('/api/pets/' + pet._id, pet)
+	      //   .error(function(data) {
+	      //     console.log(data);
+	      //     $scope.errors.push({msg: 'could not save changes'});
+	      //   });
 	    };
 
 	    $scope.editPet = function(pet) {
@@ -28512,7 +28527,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30967,6 +30982,28 @@
 
 
 	})(window, window.angular);
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(3);
+	__webpack_require__(8);
+
+	describe('copy services', function() {
+	  beforeEach(angular.mock.module('petsApp'));
+
+	  it('should copy an object', angular.mock.inject(function(copy) {
+	    var testObj = {test: 'value'};
+	    var copiedObj = copy(testObj);
+	    testObj = null;
+	    expect(copiedObj.test).toBe('value');
+	    expect(testObj).toBe(null);
+	  }));
+	});
 
 
 /***/ }

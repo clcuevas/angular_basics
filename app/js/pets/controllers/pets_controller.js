@@ -17,7 +17,15 @@ module.exports = function(app) {
     };
 
     $scope.createNewPet = function() {
-      
+      var newPet = $scope.newPet;
+      $scope.newPet = null;
+      $scope.pets.push(newPet);
+      Pet.create(newPet, function(err, data) {
+        if (err) {
+          return $scope.errors.push({msg: 'could not save pet: ' + newPet.name});
+        }
+        $scope.pets.splice($scope.pets.indexOf(newPet), 1, data);
+      });
     };
 
     $scope.removePet = function(pet) {
@@ -27,21 +35,26 @@ module.exports = function(app) {
       in your array of objects (indexOf)*/
       $scope.pets.splice($scope.pets.indexOf(pet), 1);
       //this deletes the object from the DB
-      $http.delete('/api/pets/' + pet._id)
-        .error(function(data) {
-          console.log(data);
+      Pet.remove(pet, function(err) {
+        if (err) {
           $scope.errors.push({msg: 'could not remove pet: ' + pet});
-        });
+        }
+      });
     };
 
     $scope.savePet = function(pet) {
       //reset editing status
       pet.editing = false;
-      $http.put('/api/pets/' + pet._id, pet)
-        .error(function(data) {
-          console.log(data);
+      Pet.save(pet, function(err) {
+        if (err) {
           $scope.errors.push({msg: 'could not save changes'});
-        });
+        }
+      });
+      // $http.put('/api/pets/' + pet._id, pet)
+      //   .error(function(data) {
+      //     console.log(data);
+      //     $scope.errors.push({msg: 'could not save changes'});
+      //   });
     };
 
     $scope.editPet = function(pet) {
