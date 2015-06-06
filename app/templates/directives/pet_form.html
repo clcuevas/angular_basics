@@ -1,0 +1,9 @@
+<form class="newPet" name="petForm" data-ng-submit="save({pet: pet})">
+  <input type="text" required placeholder="pet name" data-ng-model="pet.name">
+  <input type="text" required placeholder="pet owner" data-ng-model="pet.owner">
+  <input type="number" required placeholder="pet weight" data-ng-model="pet.weight">
+  <input type="text" required placeholder="pet type" data-ng-model="pet.type">
+  <button class="btn submit" type="submit" data-ng-disabled="petForm.$invalid">{{buttonText}}</button>
+  <!-- this allows our button to show -->
+  <div data-ng-transclude></div>
+</form>

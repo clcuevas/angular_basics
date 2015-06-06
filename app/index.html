@@ -21,20 +21,22 @@
       <h2>Add A New Pet:</h2>
 
       <!-- insert newPetFormDirective -->
-      <div data-new-pet-form-directive data-create-new-pet="createNewPet(pet)"></div>
+      <div data-pet-form-directive 
+            data-save="createNewPet(pet)"
+            data-button-text="'Add Pet!'"></div>
 
       <h2>View Existing Pets:</h2>
       <!-- pets is the object/ data we are getting back from the $http.get request (data is essentially $scope.pets)-->
       <ul class="existingPets" data-ng-repeat="pet in pets">
         <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button class="btn delete" data-ng-disabled="!pet._id" data-ng-click="removePet(pet)">Delete</button><button class="btn" data-ng-if="!pet.editing"  data-ng-disabled="!pet._id" data-ng-click="editPet(pet)">Edit</button>
-          <form name="{{'editing'+pet._id}}" data-ng-if="pet.editing" data-ng-submit="savePet(pet)">
-            <input type="text" placeholder="pet name" data-ng-model="pet.name">
-            <input type="text" placeholder="pet owner" data-ng-model="pet.owner">
-            <input type="number" placeholder="pet weight" data-ng-model="pet.weight">
-            <input type="text" placeholder="pet type" data-ng-model="pet.type">
-            <button class="btn submit" type="submit">Save</button>
+
+          <div data-pet-form-directive
+                data-save="savePet(pet)"
+                data-button-text="'Save'"
+                data-ng-if="pet.editing"
+                data-pet="pet">
             <button class="btn" data-ng-click="cancelEditing(pet)">Cancel</button>
-          </form>
+          </div>
         </li>
       </ul>
     </main>

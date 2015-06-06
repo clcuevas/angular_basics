@@ -45,7 +45,7 @@ module.exports = function(app) {
     $scope.savePet = function(pet) {
       //reset editing status
       pet.editing = false;
-      Pet.save(pet, function(err) {
+      Pet.save(pet, function(err, data) {
         if (err) {
           $scope.errors.push({msg: 'could not save changes'});
         }

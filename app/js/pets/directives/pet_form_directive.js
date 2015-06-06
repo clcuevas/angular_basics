@@ -1,18 +1,19 @@
 'use strict';
 
 module.exports = function(app) {
-	app.directive('newPetFormDirective', function() {
+	app.directive('petFormDirective', function() {
 		return {
-			restrict: 'A',
+			restrict: 'AC',
 			//replaces an element with what you are inserting
 			//in this example, we are replacing a div with our new_pet_form.html template
 			replace: true,
-			templateUrl: '/templates/directives/new_pet_form.html',
+			templateUrl: '/templates/directives/pet_form.html',
 			scope: {
 				//passing this in the scope of the HTML
-				createNewPet: '&'
+				save: '&',
+				buttonText: '=',
+				pet: '='
 			},
-			//this is going to include parent scope to child element
 			transclude: true
 		};
 	});
