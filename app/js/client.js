@@ -12,3 +12,5 @@ require('./services/rest_resource.js')(petsApp);
 require('./pets/controllers/pets_controller.js')(petsApp);
 
 //directives
+require('./directives/simple_directive.js')(petsApp);
+require('./pets/directives/new_pet_form_directives.js')(petsApp);

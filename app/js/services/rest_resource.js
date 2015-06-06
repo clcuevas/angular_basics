@@ -5,13 +5,13 @@ module.exports = function(app) {
 		return function(data) {
 			console.log(data);
 			callback(data);
-		}
+		};
 	};
 
 	var handleSuccess = function(callback) {
 		return function(data) {
 			callback(null, data);
-		}
+		};
 	};
 
 	app.factory('RESTResource', ['$http', function($http) {
@@ -44,7 +44,7 @@ module.exports = function(app) {
 						.success(handleSuccess(callback))
 						.error(handleError(callback));
 				}
-			}
+			};
 		};
 	}]);
 };

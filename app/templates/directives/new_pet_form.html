@@ -1,0 +1,7 @@
+<form class="newPet" name="newPetForm" data-ng-submit="createNewPet()">
+  <input type="text" required placeholder="pet name" data-ng-model="newPet.name">
+  <input type="text" required placeholder="pet owner" data-ng-model="newPet.owner">
+  <input type="number" required placeholder="pet weight" data-ng-model="newPet.weight">
+  <input type="text" required placeholder="pet type" data-ng-model="newPet.type">
+  <button class="btn submit" type="submit" data-ng-disabled="newPetForm.$invalid">Add New Pet!</button>
+</form>
