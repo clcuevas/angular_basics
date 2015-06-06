@@ -16,9 +16,9 @@ module.exports = function(app) {
       });
     };
 
-    $scope.createNewPet = function() {
-      var newPet = $scope.newPet;
-      $scope.newPet = null;
+    $scope.createNewPet = function(pet) {
+      var newPet = pet;
+      pet = null;
       $scope.pets.push(newPet);
       Pet.create(newPet, function(err, data) {
         if (err) {
@@ -50,11 +50,6 @@ module.exports = function(app) {
           $scope.errors.push({msg: 'could not save changes'});
         }
       });
-      // $http.put('/api/pets/' + pet._id, pet)
-      //   .error(function(data) {
-      //     console.log(data);
-      //     $scope.errors.push({msg: 'could not save changes'});
-      //   });
     };
 
     $scope.editPet = function(pet) {
