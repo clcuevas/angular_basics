@@ -30,7 +30,7 @@
       <ul class="existingPets" data-ng-repeat="pet in pets">
         <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button class="btn delete" data-ng-disabled="!pet._id" data-ng-click="removePet(pet)">Delete</button><button class="btn" data-ng-if="!pet.editing"  data-ng-disabled="!pet._id" data-ng-click="editPet(pet)">Edit</button>
 
-          <div data-pet-form-directive
+          <div data-pet-edit-form-directive
                 data-save="savePet(pet)"
                 data-button-text="'Save'"
                 data-ng-if="pet.editing"

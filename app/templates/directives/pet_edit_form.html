@@ -1,0 +1,9 @@
+<form name="{{'editing'+pet._id}}" data-ng-if="pet.editing" data-ng-submit="savePet(pet)">
+  <input type="text" placeholder="pet name" data-ng-model="pet.name">
+  <input type="text" placeholder="pet owner" data-ng-model="pet.owner">
+  <input type="number" placeholder="pet weight" data-ng-model="pet.weight">
+  <input type="text" placeholder="pet type" data-ng-model="pet.type">
+  <button class="btn submit" type="submit">Save</button>
+  <!-- <button class="btn" data-ng-click="cancelEditing(pet)">Cancel</button>-->
+  <div data-ng-transclude></div>
+</form>

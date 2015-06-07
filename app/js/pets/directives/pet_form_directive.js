@@ -17,4 +17,18 @@ module.exports = function(app) {
 			transclude: true
 		};
 	});
+
+	app.directive('petEditFormDirective', function() {
+		return {
+			restrict: 'AC',
+			replace: true,
+			templateUrl: '/templates/directives/pet_edit_form.html',
+			scope: {
+				save: '&',
+				buttonText: '=',
+				pet: '='
+			},
+			transclude: true
+		};
+	});
 };
