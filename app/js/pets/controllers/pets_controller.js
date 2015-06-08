@@ -1,73 +1,66 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('petsCtrl', ['$scope', '$http', function($scope, $http) {
+  app.controller('petsCtrl', ['$scope', '$http', 'RESTResource', function($scope, $http, resource) {
+    var Pet = resource('pets');
     //hold errors
     $scope.errors = [];
     $scope.pets = [];
 
     $scope.getAll = function() {
-      $http.get('/api/pets')
-        .success(function(data) {
-          /*you assign a key of pets to the array of objects you're 
-          receiving back from the GET request(data)*/
-          $scope.pets = data;
-        })
-        .error(function(data) {
-          console.log(data);
-          $scope.errors.push({msg: 'error retrieving pets'});
-        });
+      Pet.getAll(function(err, data) {
+        if (err) {
+          return $scope.errors.push({msg: 'error retrieving pets'});
+        }
+        $scope.pets = data;
+      });
     };
 
-    $scope.createNewPet = function() {
-
-      $http.post('/api/pets', $scope.newPet)
-        .success(function(data) {
-          $scope.pets.push(data);
-          //clear out the newPet after it is pushed
-          $scope.newPet = null;
-        })
-        .error(function(data) {
-          console.log(data);
-          $scope.data.push({msg: 'could not create new note'});
-        });
+    $scope.createNewPet = function(pet) {
+      var newPet = pet;
+      pet = null;
+      $scope.pets.push(newPet);
+      Pet.create(newPet, function(err, data) {
+        if (err) {
+          return $scope.errors.push({msg: 'could not save pet: ' + newPet.name});
+        }
+        $scope.pets.splice($scope.pets.indexOf(newPet), 1, data);
+      });
     };
 
     $scope.removePet = function(pet) {
       /*You are removing the pet element you
-      are selecting to delete (splice) and 
+      are selecting to delete (splice) and
       locating the index of that element
       in your array of objects (indexOf)*/
       $scope.pets.splice($scope.pets.indexOf(pet), 1);
       //this deletes the object from the DB
-      $http.delete('/api/pets/' + pet._id)
-        .error(function(data) {
-          console.log(data);
+      Pet.remove(pet, function(err) {
+        if (err) {
           $scope.errors.push({msg: 'could not remove pet: ' + pet});
-        });
+        }
+      });
     };
 
     $scope.savePet = function(pet) {
       //reset editing status
       pet.editing = false;
-      
-      $http.put('/api/pets/' + pet._id, pet)
-        .error(function(data) {
-          console.log(data);
+      Pet.save(pet, function(err, data) {
+        if (err) {
           $scope.errors.push({msg: 'could not save changes'});
-        });
+        }
+      });
     };
 
     $scope.editPet = function(pet) {
       pet.editing = true;
-      
       //save a copy of original object
       $scope.tempPet = angular.copy(pet);
     };
 
     $scope.cancelEditing = function(pet) {
       pet.editing = false;
-      
+
       if (pet !== $scope.tempPet) {
         if (pet.name !== $scope.tempPet.name) {
           pet.name = $scope.tempPet.name;

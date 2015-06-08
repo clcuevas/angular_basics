@@ -2,16 +2,18 @@
 
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-simple-mocha');
 
   grunt.initConfig({
     jshint: {
       dev: {
-        src: ['*.js', './models/**/*.js', './routes/**/*.js'],
+        src: ['*.js', './models/**/*.js', './routes/**/*.js', './test/*test.js'],
         options: {
           'node': true,
           'globals': {
@@ -54,7 +56,7 @@ module.exports = function(grunt) {
 
     jscs: {
       dev: {
-        src: ['<%= jshint.dev.src %>']
+        src: ['<%= jshint.dev.src %>', '<%= jshint.client.src %>', '<%= jshint.karma.src %>']
       }
     },
 
@@ -79,6 +81,12 @@ module.exports = function(grunt) {
           path: 'test/karma_tests/',
           file: 'bundle.js'
         }
+      }
+    },
+
+    karma: {
+      test: {
+        configFile: 'karma.conf.js'
       }
     },
 
@@ -108,6 +116,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['jshint:dev', 'jshint:client', 'jshint:karma', 'jscs:dev']);
-  grunt.registerTask('build', ['webpack:client', 'webpack:test', 'webpack:karmaTest', 'copy:html']);
+  grunt.registerTask('build', ['webpack:client', 'webpack:test', 'copy:html']);
+  grunt.registerTask('karmatest', ['webpack:karmaTest', 'karma:test']);
   grunt.registerTask('default', ['test', 'build', 'watch']);
 };
