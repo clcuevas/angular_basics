@@ -5,11 +5,12 @@ module.exports = function(app) {
 		return {
 			signIn: function(user, callback) {
 				var encoded = $base64.encode(user.username + ':' + user.password);
+				user.email = user.username;
 				$http.get('/api/signin', {
 					headers: {'Authorization': 'Basic ' + encoded}
 				})
 				.success(function(data) {
-					$cookies.put('eat', data.eat);
+					$cookies.put('eat', data.token);
 					callback(null);
 				})
 				.error(function(data) {
@@ -18,9 +19,11 @@ module.exports = function(app) {
 			},
 
 			create: function(user, callback) {
+				user.email = user.username;
+
 				$http.post('/api/create_user', user)
 					.success(function(data) {
-						$cookies.put('eat', data.eat);
+						$cookies.put('eat', data.token);
 						callback(null);
 					})
 					.error(function(data) {
@@ -33,7 +36,7 @@ module.exports = function(app) {
 			},
 
 			isSignedIn: function() {
-				return !($cookies.get('eat').length);
+				return !!($cookies.get('eat') && $cookies.get('eat').length);
 			}
 		};
 	}]);

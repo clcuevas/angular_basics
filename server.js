@@ -19,10 +19,10 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/pet_developmen
 
 app.use(passport.initialize());
 
-require('./lib/passport_strat')(passport);
+require('./lib/passport_strat.js')(passport);
 
 require('./routes/pet_routes.js')(petRoutes);
-require('./routes/auth_routes')(usersRoutes, passport);
+require('./routes/auth_routes.js')(usersRoutes, passport);
 
 app.use('/api', petRoutes);
 app.use('/api', usersRoutes);

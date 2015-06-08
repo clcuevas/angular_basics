@@ -19,6 +19,7 @@ require('./auth/controllers/auth_controller.js')(petsApp);
 //directives
 require('./directives/simple_directive.js')(petsApp);
 require('./pets/directives/pet_form_directive.js')(petsApp);
+require('./auth/directives/logout_directive.js')(petsApp);
 
 petsApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
@@ -30,7 +31,14 @@ petsApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'templates/views/sign_in.html',
 			controller: 'authController'
 		})
+		.when('/create_user', {
+			templateUrl: 'templates/views/create_user.html',
+			controller: 'authController'
+		})
 		.when('/', {
 			redirectTo: '/pets'
+		})
+		.otherwise({
+			redirectTo: '/create_user'
 		});
 }]);
