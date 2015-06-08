@@ -22,7 +22,10 @@
   "homepage": "https://github.com/clcuevas/angular_basics",
   "devDependencies": {
     "angular": "^1.4.0",
+    "angular-base64": "^2.0.5",
+    "angular-cookies": "^1.3.16",
     "angular-mocks": "^1.4.0",
+    "angular-route": "^1.3.16",
     "chai": "^2.3.0",
     "chai-http": "^1.0.0",
     "grunt": "^0.4.5",
