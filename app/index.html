@@ -8,35 +8,8 @@
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
   </head>
   <body data-ng-app="petsApp">
-    <main data-ng-controller="petsCtrl" data-ng-init="getAll()">
-      <h1>Pet Lovers!</h1>
-      <p>This site lists all the pets that our users have submitted that they own. Enjoy the list and feel free to add your pets to the list!</p>
-      <aside data-ng-if="errors.length">
-        <h2>Errors:</h2>
-        <ul data-ng-repeat="error in errors">
-          <li>{{error.msg}}</li>
-        </ul>
-        <button class="btn" data-ng-click="clearErrors()">Clear Errors</button>
-      </aside>
-      <h2>Add A New Pet:</h2>
-      <!-- insert newPetFormDirective -->
-      <div data-pet-form-directive 
-            data-save="createNewPet(pet)"
-            data-button-text="'Add Pet!'"></div>
-      <h2>View Existing Pets:</h2>
-      <!-- pets is the object/ data we are getting back from the $http.get request (data is essentially $scope.pets)-->
-      <ul class="existingPets" data-ng-repeat="pet in pets">
-        <li>Pet Name: {{pet.name}}, Owner: {{pet.owner}}, Weight: {{pet.weight}}, Pet type: {{pet.type}}<button class="btn delete" data-ng-disabled="!pet._id" data-ng-click="removePet(pet)">Delete</button><button class="btn" data-ng-if="!pet.editing"  data-ng-disabled="!pet._id" data-ng-click="editPet(pet)">Edit</button>
-          <div data-pet-edit-form-directive
-                data-save="savePet(pet)"
-                data-button-text="'Save'"
-                data-ng-if="pet.editing"
-                data-pet="pet">
-            <button class="btn" data-ng-click="cancelEditing(pet)">Cancel</button>
-          </div>
-        </li>
-      </ul>
-    </main>
+    <div data-logout-directive></div>
+    <main data-ng-view></main>
     <script src="bundle.js"></script>
   </body>
 </html>

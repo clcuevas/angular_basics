@@ -22,7 +22,10 @@
   "homepage": "https://github.com/clcuevas/angular_basics",
   "devDependencies": {
     "angular": "^1.4.0",
+    "angular-base64": "^2.0.5",
+    "angular-cookies": "^1.4.0",
     "angular-mocks": "^1.4.0",
+    "angular-route": "^1.4.0",
     "chai": "^2.3.0",
     "chai-http": "^1.0.0",
     "grunt": "^0.4.5",
@@ -45,8 +48,12 @@
     "webpack-dev-server": "^1.9.0"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.4",
+    "eat": "^0.1.1",
     "express": "^4.12.4",
-    "mongoose": "^4.0.3"
+    "mongoose": "^4.0.3",
+    "passport": "^0.2.2",
+    "passport-http": "^0.2.2"
   }
 }
